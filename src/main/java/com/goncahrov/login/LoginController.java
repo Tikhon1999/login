@@ -6,6 +6,7 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.goncahrov.service.LoginService;
@@ -14,21 +15,23 @@ import com.goncahrov.service.LoginService;
 public class LoginController {
 	
 	@RequestMapping("/login")
-	public ModelAndView checkUser(HttpServletRequest request, HttpServletResponse response) {
-		
+	public ModelAndView checkUser(@RequestParam("uname") String uname,
+			@RequestParam("pass") String pass,
+			HttpServletRequest request, HttpServletResponse response)
+	{
 		ModelAndView mv = new ModelAndView();
 		
-		String uname = request.getParameter("uname");
-		String pass = request.getParameter("pass");
+//		String uname = request.getParameter("uname");
+//		String pass = request.getParameter("pass");
 		String firstname;
 		LoginService service =  new LoginService();
 		
 		if(service.check(uname, pass)) {
 			firstname = service.getUserFirstName(uname);
-			mv.setViewName("welcome.jsp");
+			mv.setViewName("welcome");
 			mv.addObject("firstname", firstname);
 		}else {
-			mv.setViewName("index.jsp");
+			mv.setViewName("index");
 		}
 		
 		
